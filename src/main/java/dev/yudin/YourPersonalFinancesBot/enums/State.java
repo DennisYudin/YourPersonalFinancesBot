@@ -15,7 +15,8 @@ public enum State {
 	EXPENSE_SUM(""),
 	EXPENSE_DEFAULT_SUM("Enter sum"),
 	EXPENSE_MY_SUM("My sum"),
-	EXPENSE_ACCEPTED(""),
+	EXPENSE_MY_SUM_START(""),
+	EXPENSE_MY_SUM_FINISH(""),
 
 	TRY_AGAIN("Try again"),
 	YES_ANSWER("Yes"),

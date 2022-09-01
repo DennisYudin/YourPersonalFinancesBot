@@ -53,10 +53,11 @@ public class TelegramFacade implements Facade {
 
 			State userState = statesCache.defineStateBy(userId);
 			if (userState == State.EXPENSE_MY_SUM) {
+				userState = State.EXPENSE_MY_SUM_START;
 				String sum = update.getMessage().getText();
 
 //				saveExpenseSum(sum, userId);
-				userState = State.EXPENSE_ACCEPTED;
+				userState = State.EXPENSE_MY_SUM_FINISH;
 			}
 			Handler handler = handlerChooser.defineFor(userState);
 

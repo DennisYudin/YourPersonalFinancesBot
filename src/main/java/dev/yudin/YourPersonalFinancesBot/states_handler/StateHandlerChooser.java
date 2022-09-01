@@ -62,7 +62,8 @@ public class StateHandlerChooser {
 		statesHandlers.put(State.CARD_OR_CASH, cardCash);
 		statesHandlers.put(State.EXPENSE_SUM, enterSum);
 		statesHandlers.put(State.EXPENSE_MY_SUM, enterMySum);
-		statesHandlers.put(State.EXPENSE_ACCEPTED, expenseAccepted);
+		statesHandlers.put(State.EXPENSE_MY_SUM_START, enterMySum);
+		statesHandlers.put(State.EXPENSE_MY_SUM_FINISH, tryAgain);
 
 		statesHandlers.put(State.TRY_AGAIN, tryAgain);
 		statesHandlers.put(State.YES_ANSWER, mainMenu);
@@ -70,11 +71,11 @@ public class StateHandlerChooser {
 	}
 
 	public Handler defineFor(State state) {
-
 		if (statesHandlers.isEmpty()) {
 			initHandlers();
 		}
 		Handler handler = getFor(state);
+
 		String handlerName = handler.getClass().getSimpleName();
 		log.info(state + " -> " + handlerName);
 		log.info("---");
