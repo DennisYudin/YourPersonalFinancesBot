@@ -1,11 +1,12 @@
 package dev.yudin.yourpersonalfinancesbot.callbacks;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-@Log4j
+@Slf4j
 @Component("MainMenuCallback")
 public class MainMenuCallback implements Callback {
 

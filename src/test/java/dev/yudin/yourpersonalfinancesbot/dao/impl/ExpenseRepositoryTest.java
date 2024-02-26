@@ -57,7 +57,7 @@ class ExpenseRepositoryTest {
 
 		Expense newExpense = new Expense("Personal", 100, "Cash", 2441718176L,
 				LocalDateTime.of(
-						2019, 02, 10,
+						2019, 2, 10,
 						8, 30, 15
 				).atZone(ZoneId.systemDefault()));
 		newExpense.setId(0);

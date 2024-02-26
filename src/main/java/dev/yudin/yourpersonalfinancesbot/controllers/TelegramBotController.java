@@ -21,7 +21,7 @@ public class TelegramBotController extends TelegramLongPollingBot {
 	@Value("${telegramBot.botToken}")
 	private String botToken;
 
-	private Facade facade;
+	private final Facade facade;
 
 	@Autowired
 	public TelegramBotController(Facade facade) {
@@ -30,11 +30,13 @@ public class TelegramBotController extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
+
 		SendMessage callBack = facade.handle(update);
+
 		try {
 			execute(callBack);
 		} catch (TelegramApiException e) {
-			log.error("Error during execute()");
+			log.error("Error during handle update");
 			e.printStackTrace();
 		}
 	}
