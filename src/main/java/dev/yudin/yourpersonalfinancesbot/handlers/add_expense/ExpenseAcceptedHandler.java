@@ -24,7 +24,7 @@ public class ExpenseAcceptedHandler implements Handler {
 	}
 
 	@Override
-	public SendMessage apply(Update update) {
+	public SendMessage handle(Update update) {
 		long userId = update.getMessage().getFrom().getId();
 
 		statesCache.saveState(userId, State.TRY_AGAIN);

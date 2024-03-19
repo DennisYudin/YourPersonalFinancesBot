@@ -36,12 +36,12 @@ class CardCashHandlerTest {
 
 		Update update = getUpdateWithCallback("Food");
 
-		SendMessage callback = handler.apply(update);
+		SendMessage callback = handler.handle(update);
 
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Card"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Cash"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState);
 	}
 

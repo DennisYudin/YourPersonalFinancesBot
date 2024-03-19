@@ -58,7 +58,7 @@ public class CallbackHandler {
 
 	private State getState(Message message) {
 		long userId = message.getFrom().getId();
-		State state = statesCache.defineStateBy(userId);
+		State state = statesCache.defineUserStateBy(userId);
 		logState(message, state);
 		return state;
 	}

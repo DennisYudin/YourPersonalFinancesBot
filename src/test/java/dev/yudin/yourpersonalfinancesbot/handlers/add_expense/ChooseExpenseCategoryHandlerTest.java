@@ -36,14 +36,14 @@ class ChooseExpenseCategoryHandlerTest {
 
 		Update update = getUpdateWithCallback("Add expense");
 
-		SendMessage callback = handler.apply(update);
+		SendMessage callback = handler.handle(update);
 
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Food"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Personal"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Other"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Clothing"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.CARD_OR_CASH, currentState);
 	}
 

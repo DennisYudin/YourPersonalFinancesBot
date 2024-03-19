@@ -34,14 +34,14 @@ class MainMenuHandlerTest {
 
 		Update update = initUpdate();
 
-		SendMessage callback = mainMenuHandler.apply(update);
+		SendMessage callback = mainMenuHandler.handle(update);
 
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Add expense"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Add income"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State userState = statesCache.defineStateBy(201465862L);
+		State userState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, userState);
 	}
 

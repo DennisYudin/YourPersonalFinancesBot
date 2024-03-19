@@ -16,7 +16,7 @@ class StateHandlerChooserTest {
 	@Test
 	void defineFor_ShouldReturnMainMenuHandler_WhenInputIsShowMainMenuState() {
 
-		Handler handler = stateHandlerChooser.defineFor(State.MAIN_MENU);
+		Handler handler = stateHandlerChooser.findHandlerFor(State.MAIN_MENU);
 		String actualHandler = handler.getClass().getSimpleName();
 		String expectedHandler = "MainMenuHandler";
 
@@ -26,7 +26,7 @@ class StateHandlerChooserTest {
 	@Test
 	void defineFor_ShouldReturnChooseCategoryExpenseHandler_WhenInputIsAddExpenseState() {
 
-		Handler handler = stateHandlerChooser.defineFor(State.ADD_EXPENSE);
+		Handler handler = stateHandlerChooser.findHandlerFor(State.ADD_EXPENSE);
 		String actualHandler = handler.getClass().getSimpleName();
 		String expectedHandler = "ChooseExpenseCategoryHandler";
 
@@ -36,7 +36,7 @@ class StateHandlerChooserTest {
 	@Test
 	void defineFor_ShouldReturnCardCashHandler_WhenInputIsCardCashState() {
 
-		Handler handler = stateHandlerChooser.defineFor(State.CARD_OR_CASH);
+		Handler handler = stateHandlerChooser.findHandlerFor(State.CARD_OR_CASH);
 		String actualHandler = handler.getClass().getSimpleName();
 		String expectedHandler = "CardCashHandler";
 

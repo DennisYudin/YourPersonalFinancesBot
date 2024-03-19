@@ -38,7 +38,7 @@ public class CardCashHandler implements Handler {
     }
 
     @Override
-    public SendMessage apply(Update update) {
+    public SendMessage handle(Update update) {
         String userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
 
         InlineKeyboardMarkup buttons = keyboard.create();

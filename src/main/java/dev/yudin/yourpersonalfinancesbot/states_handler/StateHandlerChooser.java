@@ -8,81 +8,67 @@ import org.springframework.stereotype.Component;
 
 import java.util.EnumMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 
 @Log4j
 @Component
 public class StateHandlerChooser {
-
-	private Handler mainMenu;
-	private Handler chooseExpenseCategory;
-	private Handler cardCash;
-	private Handler enterSum;
+	private Handler mainMenuHandler;
+	private Handler chooseExpenseCategoryHandler;
+	private Handler cardCashHandler;
+	private Handler enterSumHandler;
 	private Handler expenseAccepted;
-	private Handler tryAgain;
-	private Handler enterMySum;
-	private Handler noAnswer;
+	private Handler tryAgainHandler;
+	private Handler enterMySumHandler;
+	private Handler noAnswerHandler;
 
 	private final Map<State, Handler> statesHandlers = new EnumMap<>(State.class);
 
 	@Autowired
-	public StateHandlerChooser(@Qualifier("MainMenuState") Handler mainMenu,
-							   @Qualifier("ChooseExpenseCategoryState") Handler chooseExpenseCategory,
-							   @Qualifier("CardCashState") Handler cardCash,
-							   @Qualifier("EnterSumState") Handler enterSum,
+	public StateHandlerChooser(@Qualifier("MainMenuState") Handler mainMenuHandler,
+							   @Qualifier("ChooseExpenseCategoryState") Handler chooseExpenseCategoryHandler,
+							   @Qualifier("CardCashState") Handler cardCashHandler,
+							   @Qualifier("EnterSumState") Handler enterSumHandler,
 							   @Qualifier("ExpenseAcceptedHandler") Handler expenseAccepted,
-							   @Qualifier("TryAgainState") Handler tryAgain,
-							   @Qualifier("MySumState") Handler enterMySum,
-							   @Qualifier("NoAnswerState") Handler noAnswer) {
-		this.mainMenu = mainMenu;
-		this.chooseExpenseCategory = chooseExpenseCategory;
-		this.cardCash = cardCash;
-		this.enterSum = enterSum;
+							   @Qualifier("TryAgainState") Handler tryAgainHandler,
+							   @Qualifier("MySumState") Handler enterMySumHandler,
+							   @Qualifier("NoAnswerState") Handler noAnswerHandler) {
+		this.mainMenuHandler = mainMenuHandler;
+		this.chooseExpenseCategoryHandler = chooseExpenseCategoryHandler;
+		this.cardCashHandler = cardCashHandler;
+		this.enterSumHandler = enterSumHandler;
 		this.expenseAccepted = expenseAccepted;
-		this.tryAgain = tryAgain;
-		this.enterMySum = enterMySum;
-		this.noAnswer = noAnswer;
+		this.tryAgainHandler = tryAgainHandler;
+		this.enterMySumHandler = enterMySumHandler;
+		this.noAnswerHandler = noAnswerHandler;
 	}
 
-//	private void initHandlers() {
-//		statesHandlers.put(State.SHOW_MAIN_MENU, mainMenu);
-//		statesHandlers.put(State.ADD_EXPENSE, chooseExpenseCategory);
-//		statesHandlers.put(State.CHOOSE_EXPENSE_CATEGORY, cardCash);
-//		statesHandlers.put(State.ENTER_CARD_OR_CASH, enterSum);
-//		statesHandlers.put(State.ENTER_SUM, tryAgain);
-//		statesHandlers.put(State.MY_SUM, enterMySum);
-//		statesHandlers.put(State.TRY_AGAIN, mainMenu);
-//		statesHandlers.put(State.NO_ANSWER, noAnswer);
-//		statesHandlers.put(State.YES_ANSWER, mainMenu);
-//	}
-
+	@PostConstruct
 	private void initHandlers() {
-		statesHandlers.put(State.MAIN_MENU, mainMenu);
+		log.info("Start init handlers...");
+		statesHandlers.put(State.MAIN_MENU, mainMenuHandler);
 
-		statesHandlers.put(State.ADD_EXPENSE, chooseExpenseCategory);
-		statesHandlers.put(State.CARD_OR_CASH, cardCash);
-		statesHandlers.put(State.EXPENSE_SUM, enterSum);
-		statesHandlers.put(State.EXPENSE_MY_SUM, enterMySum);
-		statesHandlers.put(State.EXPENSE_MY_SUM_START, enterMySum);
-		statesHandlers.put(State.EXPENSE_MY_SUM_FINISH, tryAgain);
+		statesHandlers.put(State.ADD_EXPENSE, chooseExpenseCategoryHandler);
+		statesHandlers.put(State.CARD_OR_CASH, cardCashHandler);
+		statesHandlers.put(State.EXPENSE_SUM, enterSumHandler);
+		statesHandlers.put(State.EXPENSE_MY_SUM, enterMySumHandler);
+		statesHandlers.put(State.EXPENSE_MY_SUM_START, enterMySumHandler);
+		statesHandlers.put(State.EXPENSE_MY_SUM_FINISH, tryAgainHandler);
 
-		statesHandlers.put(State.TRY_AGAIN, tryAgain);
-		statesHandlers.put(State.YES_ANSWER, mainMenu);
-		statesHandlers.put(State.NO_ANSWER, noAnswer);
+		statesHandlers.put(State.TRY_AGAIN, tryAgainHandler);
+		statesHandlers.put(State.YES_ANSWER, mainMenuHandler);
+		statesHandlers.put(State.NO_ANSWER, noAnswerHandler);
+
+		log.info("All handlers init succeeded");
 	}
 
-	public Handler defineFor(State state) {
-		if (statesHandlers.isEmpty()) {
-			initHandlers();
-		}
-		Handler handler = getFor(state);
+	public Handler findHandlerFor(State state) {
 
-		String handlerName = handler.getClass().getSimpleName();
-		log.info(state + " -> " + handlerName);
-		log.info("---");
+		Handler handler = statesHandlers.getOrDefault(state, mainMenuHandler);
+
+//		String handlerName = handler.getClass().getSimpleName();
+//		log.info(state + " -> " + handlerName);
+//		log.info("---------");
 		return handler;
-	}
-
-	private Handler getFor(State state) {
-		return statesHandlers.getOrDefault(state, mainMenu);
 	}
 }

@@ -1,5 +1,6 @@
 package dev.yudin.yourpersonalfinancesbot.controllers;
 
+import dev.yudin.yourpersonalfinancesbot.exceptions.TelegramBotException;
 import dev.yudin.yourpersonalfinancesbot.facades.Facade;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +16,27 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 @PropertySource("classpath:application.properties")
 public class TelegramBotController extends TelegramLongPollingBot {
-
 	@Value("${telegramBot.userName}")
 	private String botName;
 	@Value("${telegramBot.botToken}")
 	private String botToken;
-
-	private final Facade facade;
+	private final Facade telegramBotFacade;
 
 	@Autowired
-	public TelegramBotController(Facade facade) {
-		this.facade = facade;
+	public TelegramBotController(Facade telegramBotFacade) {
+		this.telegramBotFacade = telegramBotFacade;
 	}
 
 	@Override
 	public void onUpdateReceived(Update update) {
 
-		SendMessage callBack = facade.handle(update);
+		SendMessage callBack = telegramBotFacade.handle(update);
 
 		try {
 			execute(callBack);
 		} catch (TelegramApiException e) {
-			log.error("Error during handle update");
-			e.printStackTrace();
+			log.error("Error during handle update from user " + update.getMessage().getFrom().getId());
+			throw new TelegramBotException("Error during handle update from user " + update.getMessage().getFrom().getId());
 		}
 	}
 

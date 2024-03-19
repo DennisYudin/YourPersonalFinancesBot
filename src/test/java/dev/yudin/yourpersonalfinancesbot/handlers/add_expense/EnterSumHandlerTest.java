@@ -36,14 +36,14 @@ class EnterSumHandlerTest {
 
 		Update update = getUpdateWithCallback("Cash");
 
-		SendMessage callback = handler.apply(update);
+		SendMessage callback = handler.handle(update);
 
 		assertTrue(callback.getReplyMarkup().toString().contains("text=100"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=300"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=500"));
 		assertTrue(callback.getReplyMarkup().toString().contains("text=My sum"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState);
 	}
 

@@ -17,7 +17,7 @@ public class StatesCache implements Cache {
 	}
 
 	@Override
-	public State defineStateBy(long userId) {
+	public State defineUserStateBy(long userId) {
 		return usersStates.getOrDefault(userId, State.MAIN_MENU);
 	}
 }

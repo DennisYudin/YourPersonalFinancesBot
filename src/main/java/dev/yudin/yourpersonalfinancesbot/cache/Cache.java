@@ -6,5 +6,5 @@ public interface Cache {
 
 	void saveState(long userId, State state);
 
-	State defineStateBy(long userId);
+	State defineUserStateBy(long userId);
 }

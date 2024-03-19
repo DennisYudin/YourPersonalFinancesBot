@@ -15,10 +15,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 @SpringBootTest
-class TelegramFacadeTest {
-
+class TelegramBotFacadeTest {
 	@Autowired
-	private TelegramFacade facade;
+	private TelegramBotFacade facade;
 	@Autowired
 	private Cache statesCache;
 
@@ -30,12 +29,14 @@ class TelegramFacadeTest {
 
 		SendMessage mainMenuDialogue = facade.handle(initUpdate);
 
+		assertEquals(String.valueOf(201465862L), mainMenuDialogue.getChatId());
+		assertEquals("Choose option", mainMenuDialogue.getText());
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Add expense"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Add income"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State userState = statesCache.defineStateBy(201465862L);
+		State userState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, userState);
 
 		//Choose expense category Dialogue
@@ -48,7 +49,7 @@ class TelegramFacadeTest {
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Other"));
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Clothing"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.CARD_OR_CASH, currentState);
 
 		//Choose card or cash Dialogue
@@ -59,7 +60,7 @@ class TelegramFacadeTest {
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Card"));
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Cash"));
 
-		State currentState2 = statesCache.defineStateBy(201465862L);
+		State currentState2 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState2);
 
 		//Choose or enter sum Dialogue
@@ -72,7 +73,7 @@ class TelegramFacadeTest {
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=500"));
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=My sum"));
 
-		State currentState3 = statesCache.defineStateBy(201465862L);
+		State currentState3 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState3);
 
 		//Try again Dialogue
@@ -83,7 +84,7 @@ class TelegramFacadeTest {
 		assertTrue(tryAgainDialogue.getReplyMarkup().toString().contains("text=Yes"));
 		assertTrue(tryAgainDialogue.getReplyMarkup().toString().contains("text=No"));
 
-		State currentState4 = statesCache.defineStateBy(201465862L);
+		State currentState4 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.TRY_AGAIN, currentState4);
 
 		//-----
@@ -96,7 +97,7 @@ class TelegramFacadeTest {
 		assertTrue(mainMenuDialogueRepeat.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogueRepeat.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State currentState5 = statesCache.defineStateBy(201465862L);
+		State currentState5 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, currentState5);
 	}
 
@@ -113,7 +114,7 @@ class TelegramFacadeTest {
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State userState = statesCache.defineStateBy(201465862L);
+		State userState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, userState);
 
 		//Choose expense category Dialogue
@@ -126,7 +127,7 @@ class TelegramFacadeTest {
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Other"));
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Clothing"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.CARD_OR_CASH, currentState);
 
 		//Choose card or cash Dialogue
@@ -137,7 +138,7 @@ class TelegramFacadeTest {
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Card"));
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Cash"));
 
-		State currentState2 = statesCache.defineStateBy(201465862L);
+		State currentState2 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState2);
 
 		//Choose or enter sum Dialogue
@@ -150,7 +151,7 @@ class TelegramFacadeTest {
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=500"));
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=My sum"));
 
-		State currentState3 = statesCache.defineStateBy(201465862L);
+		State currentState3 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState3);
 
 		//Try again Dialogue
@@ -161,7 +162,7 @@ class TelegramFacadeTest {
 		assertTrue(tryAgainDialogue.getReplyMarkup().toString().contains("text=Yes"));
 		assertTrue(tryAgainDialogue.getReplyMarkup().toString().contains("text=No"));
 
-		State currentState4 = statesCache.defineStateBy(201465862L);
+		State currentState4 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.TRY_AGAIN, currentState4);
 
 		//-----
@@ -174,7 +175,7 @@ class TelegramFacadeTest {
 
 		assertEquals(expected, actualText);
 
-		State currentState5 = statesCache.defineStateBy(201465862L);
+		State currentState5 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, currentState5);
 	}
 
@@ -191,7 +192,7 @@ class TelegramFacadeTest {
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State userState = statesCache.defineStateBy(201465862L);
+		State userState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, userState);
 
 		//Choose expense category Dialogue
@@ -204,7 +205,7 @@ class TelegramFacadeTest {
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Other"));
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Clothing"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.CARD_OR_CASH, currentState);
 
 		//Choose card or cash Dialogue
@@ -215,7 +216,7 @@ class TelegramFacadeTest {
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Card"));
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Cash"));
 
-		State currentState2 = statesCache.defineStateBy(201465862L);
+		State currentState2 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState2);
 
 		//Choose or enter sum Dialogue
@@ -228,7 +229,7 @@ class TelegramFacadeTest {
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=500"));
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=My sum"));
 
-		State currentState3 = statesCache.defineStateBy(201465862L);
+		State currentState3 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState3);
 
 		//Enter sum
@@ -241,7 +242,7 @@ class TelegramFacadeTest {
 
 		assertEquals(expected, actual);
 
-		State currentState4 = statesCache.defineStateBy(201465862L);
+		State currentState4 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_MY_SUM, currentState4);
 
 		//-------------
@@ -253,7 +254,7 @@ class TelegramFacadeTest {
 		String expectedText = "Expense saved!";
 
 		assertEquals(expectedText, actualText);
-		State currentState5 = statesCache.defineStateBy(201465862L);
+		State currentState5 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.TRY_AGAIN, currentState5);
 
 		//-----
@@ -266,7 +267,7 @@ class TelegramFacadeTest {
 
 		assertEquals(expectedGoodBuy, actualGoodBuy);
 
-		State currentState6 = statesCache.defineStateBy(201465862L);
+		State currentState6 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, currentState6);
 	}
 
@@ -283,7 +284,7 @@ class TelegramFacadeTest {
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogue.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State userState = statesCache.defineStateBy(201465862L);
+		State userState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, userState);
 
 		//Choose expense category Dialogue
@@ -296,7 +297,7 @@ class TelegramFacadeTest {
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Other"));
 		assertTrue(chooseExpenseDialogue.getReplyMarkup().toString().contains("text=Clothing"));
 
-		State currentState = statesCache.defineStateBy(201465862L);
+		State currentState = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.CARD_OR_CASH, currentState);
 
 		//Choose card or cash Dialogue
@@ -307,7 +308,7 @@ class TelegramFacadeTest {
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Card"));
 		assertTrue(cardOrCashDialogue.getReplyMarkup().toString().contains("text=Cash"));
 
-		State currentState2 = statesCache.defineStateBy(201465862L);
+		State currentState2 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState2);
 
 		//Choose or enter sum Dialogue
@@ -320,7 +321,7 @@ class TelegramFacadeTest {
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=500"));
 		assertTrue(enterSumDialogue.getReplyMarkup().toString().contains("text=My sum"));
 
-		State currentState3 = statesCache.defineStateBy(201465862L);
+		State currentState3 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.EXPENSE_SUM, currentState3);
 
 		//Try again Dialogue
@@ -333,7 +334,7 @@ class TelegramFacadeTest {
 
 		assertEquals(expected, actual);
 
-		State currentState4 = statesCache.defineStateBy(201465862L);
+		State currentState4 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.TRY_AGAIN, currentState4);
 
 		Update pushedButton5 = getUpdateWithCallback("Yes");
@@ -345,7 +346,7 @@ class TelegramFacadeTest {
 		assertTrue(mainMenuDialogueRepeat.getReplyMarkup().toString().contains("text=Show expenses"));
 		assertTrue(mainMenuDialogueRepeat.getReplyMarkup().toString().contains("text=Show statistic"));
 
-		State currentState5 = statesCache.defineStateBy(201465862L);
+		State currentState5 = statesCache.defineUserStateBy(201465862L);
 		assertEquals(State.MAIN_MENU, currentState5);
 	}
 

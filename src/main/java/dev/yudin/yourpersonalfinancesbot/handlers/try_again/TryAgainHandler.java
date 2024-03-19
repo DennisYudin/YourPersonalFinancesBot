@@ -40,7 +40,7 @@ public class TryAgainHandler implements Handler {
 	}
 
 	@Override
-	public SendMessage apply(Update update) {
+	public SendMessage handle(Update update) {
 
 		String sum;
 		long userId = 0;

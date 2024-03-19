@@ -31,7 +31,7 @@ public class MySumHandler implements Handler {
 	}
 
 	@Override
-	public SendMessage apply(Update update) {
+	public SendMessage handle(Update update) {
 		long userId = update.getCallbackQuery().getFrom().getId();
 
 		statesCache.saveState(userId, State.EXPENSE_MY_SUM);

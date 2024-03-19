@@ -15,9 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Log4j
 @Component("ChooseExpenseCategoryState")
 public class ChooseExpenseCategoryHandler implements Handler {
-
 	public static final String TEXT_MESSAGE = "Choose expense category";
-
 	private Keyboard keyboard;
 	private Callback callback;
 	private Cache cache;
@@ -32,18 +30,17 @@ public class ChooseExpenseCategoryHandler implements Handler {
 	}
 
 	@Override
-	public SendMessage apply(Update update) {
-
+	public SendMessage handle(Update update) {
 		String userId;
 		if (update.hasMessage()) {
 			userId = update.getMessage().getFrom().getId().toString();
 		} else {
 			userId = update.getCallbackQuery().getFrom().getId().toString();
 		}
-		var buttons = keyboard.create();
+		var keyboardWithButtons = keyboard.create();
 
-		cache.saveState(Long.parseLong(userId), State.CARD_OR_CASH);
+//		cache.saveState(Long.parseLong(userId), State.CARD_OR_CASH);
 
-		return callback.create(userId, TEXT_MESSAGE, buttons);
+		return callback.create(userId, TEXT_MESSAGE, keyboardWithButtons);
 	}
 }
